@@ -1,4 +1,4 @@
-name: Create Apk Release
+name: Build and Release APK
 
 on:
   push:
@@ -29,6 +29,11 @@ jobs:
     - name: Create Tag
       id: create_tag
       run: |
+        # Delete the existing tag from the remote if it exists
+        git tag -d v${{ steps.set_version.outputs.VERSION }} || true
+        git push --delete origin v${{ steps.set_version.outputs.VERSION }} || true
+        
+        # Create and push the new tag
         git tag v${{ steps.set_version.outputs.VERSION }}
         git push https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/pizoneuser/Demo.git v${{ steps.set_version.outputs.VERSION }}
       env:
@@ -42,6 +47,6 @@ jobs:
         body: |
           Initial release for version v${{ steps.set_version.outputs.VERSION }}.
         files: |
-          ./app/build/outputs/apk/release/app-release.apk  #  path to the APK file
+          ./app/build/outputs/apk/release/app-release.apk  # Correct path to the APK file
       env:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
