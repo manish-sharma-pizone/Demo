@@ -21,7 +21,7 @@ jobs:
         id: create_tag
         run: |
           git tag v${{ steps.set_version.outputs.VERSION }}
-          git push origin v${{ steps.set_version.outputs.VERSION }}
+          git push https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/pizoneuser/Demo.git v${{ steps.set_version.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
