@@ -17,6 +17,12 @@ jobs:
         id: set_version
         run: echo "::set-output name=VERSION::1.0.0"  # Hardcoded version for testing
 
+      - name: Delete remote tag if it exists
+        run: |
+          git fetch --tags
+          git tag -d v${{ steps.set_version.outputs.VERSION }} || true
+          git push origin :refs/tags/v${{ steps.set_version.outputs.VERSION }} || true
+
       - name: Create Tag
         id: create_tag
         run: |
@@ -39,6 +45,6 @@ jobs:
           body: |
             Initial release for version v${{ steps.set_version.outputs.VERSION }}.
           files: |
-            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/apk/release/app-release.apk  # Adjust path if needed
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
