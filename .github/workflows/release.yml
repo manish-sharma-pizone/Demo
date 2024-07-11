@@ -25,6 +25,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
+      - name: Set execute permissions for gradlew
+        run: chmod +x ./gradlew
+
       - name: Build Project
         run: ./gradlew assembleRelease  # Build the project to generate APKs
 
@@ -36,6 +39,6 @@ jobs:
           body: |
             Initial release for version v${{ steps.set_version.outputs.VERSION }}.
           files: |
-            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
