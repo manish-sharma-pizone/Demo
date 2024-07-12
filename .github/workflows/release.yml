@@ -29,6 +29,9 @@ jobs:
     - name: Build APK
       run: ./gradlew assembleRelease  # Build the APK file
 
+    - name: Rename APK File
+      run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk  # Rename the APK file
+
     - name: Verify APK File
       run: |
         echo "Verifying APK file..."
